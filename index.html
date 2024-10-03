@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tarefas</title>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Inclua o Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+<body>
+  <!-- Contenedor principal do conteúdo -->
+  <div class="conteudo">
+    <!-- Título da página -->
+    <h1 class="moving-title">Lista de Tarefas</h1>
+    <!-- Contenedor superior com o input e o botão para adicionar tarefas -->
+    <div class="topo">
+      <!-- Input para adicionar tarefas -->
+      <input type="text" id="inputNovaTarefa" placeholder="Adicione uma nova tarefa">
+      <!-- Botão para adicionar tarefas -->
+      <button id="btnAddTarefa">
+        <i class="fa fa-plus"></i>
+      </button>
+    </div>
+    <!-- Lista de tarefas -->
+    <ul id="listaTarefas"></ul>
+  </div>
+  <!-- Janela de edição de tarefas -->
+  <div id="janelaEdicao">
+    <!-- Botão para fechar a janela de edição -->
+    <button id="janelaEdicaoBtnFechar">
+      <i class="fa fa-remove fa-2x"></i>
+    </button>
+    <!-- Título da tarefa em edição -->
+    <h2 id="idTarefaEdicao">#1021</h2>
+    <hr>
+    <!-- Formulário para editar a tarefa -->
+    <form>
+      <!-- Campo para editar o nome da tarefa -->
+      <div class="frm-linha">
+        <label for="nome">Nome</label>
+        <input type="text" id="inputTarefaNomeEdicao">
+      </div>
+      <!-- Botão para salvar as alterações -->
+      <div class="frm-linha">
+        <button id="btnAtualizarTarefa">Salvar</button>
+      </div>
+    </form>
+  </div>
+  <!-- Fundo da janela de edição -->
+  <div id="janelaEdicaoFundo"></div>
+  <!-- Script para a lógica da aplicação -->
+  <script src="js/tarefas.js"></script>
+  <!-- Navegação social -->
+  <nav class="social">
+    <ul>
+      <li><a class="facebook" href="https://www.facebook.com/profile.php?id=100006004819454">Facebook <i
+            class="fab fa-facebook-f"></i></a></li>
+      <li><a class="instagram" href="https://www.instagram.com/marcelojp92/">Instagram <i
+            class="fab fa-instagram"></i></a></li>
+      <li><a class="linkedin" href="https://www.linkedin.com/in/marcelo-jos%C3%A9-de-paula-3272068a/">LinkedIn <i
+            class="fab fa-linkedin"></i></a></li>
+      <li><a class="github" href="https://github.com/MarceloJP92">Github <i class="fab fa-github"></i></a></li>
+    </ul>
+  </nav>
+</body>
+</html>
