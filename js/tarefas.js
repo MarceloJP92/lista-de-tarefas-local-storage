@@ -16,27 +16,37 @@ obterTarefasLocalStorage();
 renderizarListaTarefaHtml();
 
 inputNovaTarefa.addEventListener('keypress', (e) => {
-    if(e.keyCode == KEY_CODE_ENTER) {
+    if (e.keyCode == KEY_CODE_ENTER) {
+        if (inputNovaTarefa.value.trim() === '') {
+            alert('Por favor, insira uma tarefa válida.');
+            return;
+        }
+
         let tarefa = {
             nome: inputNovaTarefa.value,
             id: gerarIdV2(),
             concluida: false  // Inicializa como não concluída
-        }
+        };
         adicionarTarefa(tarefa);
     }
 });
 
-janelaEdicaoBtnFechar.addEventListener('click', (e) => {
-    alternarJanelaEdicao();
-});
-
 btnAddTarefa.addEventListener('click', (e) => {
+    if (inputNovaTarefa.value.trim() === '') {
+        alert('Por favor, insira uma tarefa válida.');
+        return;
+    }
+
     let tarefa = {
         nome: inputNovaTarefa.value,
         id: gerarIdV2(),
         concluida: false  // Inicializa como não concluída
-    }
+    };
     adicionarTarefa(tarefa);
+});
+
+janelaEdicaoBtnFechar.addEventListener('click', (e) => {
+    alternarJanelaEdicao();
 });
 
 btnAtualizarTarefa.addEventListener('click', (e) => {
@@ -48,11 +58,11 @@ btnAtualizarTarefa.addEventListener('click', (e) => {
         nome: inputTarefaNomeEdicao.value,
         id: idTarefa,
         concluida: false  // Mantém o estado de não concluída ao editar
-    }
+    };
 
-    let tarefaAtual = document.getElementById(''+idTarefa+'');
+    let tarefaAtual = document.getElementById('' + idTarefa + '');
 
-    if(tarefaAtual) {
+    if (tarefaAtual) {
         const indiceTarefa = obterIndiceTarefaPorId(idTarefa);
         dbTarefas[indiceTarefa] = tarefa;
         salvarTarefasLocalStorage();
@@ -62,7 +72,7 @@ btnAtualizarTarefa.addEventListener('click', (e) => {
         alternarJanelaEdicao();
     } else {
         alert('Elemento HTML não encontrado!');
-    } 
+    }
 });
 
 function gerarId() {
@@ -77,18 +87,18 @@ function gerarIdUnico() {
     let itensDaLista = document.querySelector('#listaTarefas').children;
     let idsGerados = [];
 
-    for(let i=0;i<itensDaLista.length;i++) {
+    for (let i = 0; i < itensDaLista.length; i++) {
         idsGerados.push(itensDaLista[i].id);
     }
 
     let contadorIds = 0;
     let id = gerarId();
 
-    while(contadorIds <= qtdIdsDisponiveis && idsGerados.indexOf(id.toString()) > -1) {
+    while (contadorIds <= qtdIdsDisponiveis && idsGerados.indexOf(id.toString()) > -1) {
         id = gerarId();
         contadorIds++;
 
-        if(contadorIds >= qtdIdsDisponiveis) {
+        if (contadorIds >= qtdIdsDisponiveis) {
             alert("Oops, ficamos sem IDS :/");
             throw new Error("Acabou os IDs :/");
         }
@@ -106,7 +116,7 @@ function adicionarTarefa(tarefa) {
 function criarTagLI(tarefa) {
     let li = document.createElement('li');
     li.id = tarefa.id;
-    
+
     // Verifica se a tarefa está concluída e aplica a classe
     if (tarefa.concluida) {
         li.classList.add('concluida');
@@ -117,21 +127,21 @@ function criarTagLI(tarefa) {
     span.innerHTML = tarefa.nome;
 
     // Evento para marcar como concluída
-    span.addEventListener('click', function() {
+    span.addEventListener('click', function () {
         marcarConcluida(tarefa.id);
     });
 
-    let div  = document.createElement('div');
+    let div = document.createElement('div');
 
     let btnEditar = document.createElement('button');
     btnEditar.classList.add('btnAcao');
     btnEditar.innerHTML = '<i class="fa fa-pencil"></i>';
-    btnEditar.setAttribute('onclick', 'editar('+tarefa.id+')');
-    
-    let btnExcluir  = document.createElement('button');
+    btnEditar.setAttribute('onclick', 'editar(' + tarefa.id + ')');
+
+    let btnExcluir = document.createElement('button');
     btnExcluir.classList.add('btnAcao');
     btnExcluir.innerHTML = '<i class="fa fa-trash"></i>';
-    btnExcluir.setAttribute('onclick', 'excluir('+tarefa.id+')');
+    btnExcluir.setAttribute('onclick', 'excluir(' + tarefa.id + ')');
 
     div.appendChild(btnEditar);
     div.appendChild(btnExcluir);
@@ -142,8 +152,8 @@ function criarTagLI(tarefa) {
 }
 
 function editar(idTarefa) {
-    let li = document.getElementById(''+ idTarefa + '');
-    if(li) {
+    let li = document.getElementById('' + idTarefa + '');
+    if (li) {
         idTarefaEdicao.innerHTML = '#' + idTarefa;
         inputTarefaNomeEdicao.value = li.innerText;
         alternarJanelaEdicao();
@@ -154,13 +164,13 @@ function editar(idTarefa) {
 
 function excluir(idTarefa) {
     let confirmacao = window.confirm('Tem certeza que deseja excluir? ');
-    if(confirmacao) {
+    if (confirmacao) {
         const indiceTarefa = obterIndiceTarefaPorId(idTarefa);
         dbTarefas.splice(indiceTarefa, 1);
         salvarTarefasLocalStorage();
 
-        let li = document.getElementById(''+ idTarefa + '');
-        if(li) {
+        let li = document.getElementById('' + idTarefa + '');
+        if (li) {
             listaTarefas.removeChild(li);
         } else {
             alert('Elemento HTML não encontrado!');
@@ -170,7 +180,7 @@ function excluir(idTarefa) {
 
 function marcarConcluida(idTarefa) {
     const tarefa = dbTarefas.find(t => t.id == idTarefa);
-    
+
     if (tarefa) {
         // Alterna o estado de concluída
         tarefa.concluida = !tarefa.concluida;
@@ -186,7 +196,7 @@ function alternarJanelaEdicao() {
 
 function obterIndiceTarefaPorId(idTarefa) {
     const indiceTarefa = dbTarefas.findIndex(t => t.id == idTarefa);
-    if(indiceTarefa < 0) {
+    if (indiceTarefa < 0) {
         throw new Error('Id da tarefa não encontrado: ', idTarefa);
     }
     return indiceTarefa;
@@ -194,11 +204,11 @@ function obterIndiceTarefaPorId(idTarefa) {
 
 function renderizarListaTarefaHtml() {
     listaTarefas.innerHTML = '';
-    for(let i=0; i < dbTarefas.length; i++) {
+    for (let i = 0; i < dbTarefas.length; i++) {
         let li = criarTagLI(dbTarefas[i]);
-        listaTarefas.appendChild(li); 
-    } 
-    inputNovaTarefa.value = '';  
+        listaTarefas.appendChild(li);
+    }
+    inputNovaTarefa.value = '';
 }
 
 function salvarTarefasLocalStorage() {
@@ -206,7 +216,7 @@ function salvarTarefasLocalStorage() {
 }
 
 function obterTarefasLocalStorage() {
-    if(localStorage.getItem(KEY_LOCAL_STORAGE)) {
+    if (localStorage.getItem(KEY_LOCAL_STORAGE)) {
         dbTarefas = JSON.parse(localStorage.getItem(KEY_LOCAL_STORAGE));
-    }  
+    }
 }
